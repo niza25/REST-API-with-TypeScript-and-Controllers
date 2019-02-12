@@ -4,7 +4,7 @@
   "description": "",
   "main": "target/index.js",
   "scripts": {
-    "start": "node .",
+    "start": "nodemon .",
     "compile": "tsc",
     "postinstall": "tsc -p ."
   },
