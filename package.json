@@ -5,7 +5,8 @@
   "main": "target/index.js",
   "scripts": {
     "start": "node .",
-    "compile": "tsc"
+    "compile": "tsc",
+    "postinstall": "tsc -p ."
   },
   "keywords": [],
   "author": "",
