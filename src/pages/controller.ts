@@ -33,6 +33,9 @@ export default class PageController {
   @Post('/pages')
   @HttpCode(201)
   createPage(
+    // @Body means - it should get the JSON body of the request and put it into the page variable
+    // Page will automatically look into this class for any validation rules
+    // That works because routing-controllers integrates with class-validator out of the box, by default
     @Body() page: Page
   ) {
     return page.save()

@@ -1,4 +1,4 @@
-import { JsonController, Get, Param, Body, Post, HttpCode, Put, NotFoundError } from 'routing-controllers'
+import { JsonController, Get, Param, Body, Post, Put, NotFoundError } from 'routing-controllers'
 import User from './entity'
 
 @JsonController()
@@ -29,11 +29,13 @@ export default class UserController {
   }
 
   @Post('/users')
-  @HttpCode(201)
-  createPage(
+  async createUser(
     @Body() user: User
   ) {
-    return user.save()
+    const { password, ...rest } = user
+    const entity = User.create(rest)
+    await entity.setPassword(password)
+    return entity.save()
   }
 
 }
