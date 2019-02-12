@@ -1,10 +1,11 @@
-// src/index.ts
 import 'reflect-metadata'
-import {createKoaServer} from 'routing-controllers'
+import { createKoaServer } from 'routing-controllers'
 import PageController from './pages/controller'
 import UserController from './users/controller'
 import LoginController from './logins/controller'
+import { Action } from 'routing-controllers'
 import setupDb from './db'
+import { verify } from './jwt'
 
 
 const app = createKoaServer({
@@ -12,7 +13,19 @@ const app = createKoaServer({
     PageController,
     UserController,
     LoginController
-  ]
+  ],
+  authorizationChecker: (action: Action) => {
+    const header: string = action.request.headers.authorization
+
+    if (header && header.startsWith('Bearer ')) {
+      //arr destruc to make sure we only catch the second part of header.split and assign it to token
+      const [, token] = header.split(' ')
+      // will transform any variable into a boolean
+      return !!(token && verify(token))
+    } else {
+      return false
+    }
+  }
 })
 
 setupDb()
